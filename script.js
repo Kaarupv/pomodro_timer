@@ -1,4 +1,4 @@
-var pomodoroTime = 5;
+var pomodoroTime = 1500;
 var isTimerRunning = false;
 var downloadTimer;
 
@@ -46,7 +46,7 @@ function pauseTimer() {
 function resetTimer() {
   clearInterval(downloadTimer);
   isTimerRunning = false;
-  pomodoroTime = 5;
+  pomodoroTime = 1500;
   document.getElementById("countdown").innerHTML = fmtMSS(pomodoroTime);
   document.getElementById("timer_start").value = "Start";
 }
@@ -54,16 +54,33 @@ function resetTimer() {
 const apiUrl = "https://type.fit/api/quotes";
 const outputElement = document.getElementById("output");
 
-fetch(apiUrl)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("not ok");
-    }
-    return response.json();
-  })
-  .then((data) => {
-    outputElement.textContent = JSON.stringify(data, null, 2);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
+let currentIndex = 0;
+let timer;
+
+function fetchQuotes() {
+  fetch(apiUrl)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      displayQuote(data);
+      timer = setInterval(() => {
+        currentIndex = (currentIndex + 1) % data.length;
+        displayQuote(data);
+      }, 30000);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+function displayQuote(data) {
+  const quote = data[currentIndex];
+  const author = quote.author.split(",")[0];
+  outputElement.textContent = `"${quote.text}" - ${author}`;
+}
+
+fetchQuotes();
