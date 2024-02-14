@@ -1,9 +1,13 @@
-var pomodoroTime = 1500;
+var pomodoroTime = 5;
 var isTimerRunning = false;
 var downloadTimer;
 
 function fmtMSS(s) {
-  return (s - (s %= 60)) / 60 + (9 < s ? ":" : ":0") + s;
+  var minutes = Math.floor(s / 60);
+  var seconds = s % 60;
+  var formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
+  var formattedSeconds = seconds < 10 ? "0" + seconds : seconds;
+  return formattedMinutes + ":" + formattedSeconds;
 }
 
 document.getElementById("timer_start").addEventListener("click", function () {
@@ -12,6 +16,10 @@ document.getElementById("timer_start").addEventListener("click", function () {
   } else {
     pauseTimer();
   }
+});
+
+document.getElementById("timer_reset").addEventListener("click", function () {
+  resetTimer();
 });
 
 function startTimer() {
@@ -34,3 +42,28 @@ function pauseTimer() {
   isTimerRunning = false;
   document.getElementById("timer_start").value = "Start";
 }
+
+function resetTimer() {
+  clearInterval(downloadTimer);
+  isTimerRunning = false;
+  pomodoroTime = 5;
+  document.getElementById("countdown").innerHTML = fmtMSS(pomodoroTime);
+  document.getElementById("timer_start").value = "Start";
+}
+
+const apiUrl = "https://type.fit/api/quotes";
+const outputElement = document.getElementById("output");
+
+fetch(apiUrl)
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("not ok");
+    }
+    return response.json();
+  })
+  .then((data) => {
+    outputElement.textContent = JSON.stringify(data, null, 2);
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });
