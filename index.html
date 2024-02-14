@@ -3,13 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Zenpomo</title>
   </head>
   <body>
-    <div class="startButton">
-      <input type="button" value="Start" id="timer_start" />
+    <div class="content">
+      <h1>Zenpomo</h1>
+      <div class="wrapper">
+        <div class="cycle">Cycle numbers</div>
+        <div class="startButton">
+          <input type="button" value="Start" id="timer_start" />
+          <input type="button" value="Reset" id="timer_reset" />
+        </div>
+        <div id="countdown">25:00</div>
+        <div class="quote">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis
+          nulla qui iusto
+        </div>
+      </div>
     </div>
-    <div id="countdown"></div>
     <script src="script.js"></script>
   </body>
 </html>

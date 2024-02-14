@@ -1,4 +1,4 @@
-var pomodoroTime = 15;
+var pomodoroTime = 1500;
 var isTimerRunning = false;
 var downloadTimer;
 
