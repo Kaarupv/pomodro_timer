@@ -1,4 +1,4 @@
-var pomodoroTime = 1500;
+var pomodoroTime = 1500; // Initial time in seconds (25 minutes)
 var isTimerRunning = false;
 var downloadTimer;
 
@@ -20,6 +20,18 @@ document.getElementById("timer_start").addEventListener("click", function () {
 
 document.getElementById("timer_reset").addEventListener("click", function () {
   resetTimer();
+});
+
+document.getElementById("countdown").addEventListener("click", function () {
+  // Change timer value on click
+  var newTime = prompt("Enter new time in minutes:");
+  pomodoroTime = 1500;
+  if (!isNaN(newTime) && newTime > 0) {
+    pomodoroTime = newTime * 60;
+    resetTimer();
+  } else {
+    alert("Please enter a valid positive number.");
+  }
 });
 
 function startTimer() {
